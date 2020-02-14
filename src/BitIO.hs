@@ -43,7 +43,7 @@ bHandle (ReadHandle h _) = h
 
 bGetBit :: BitHandle -> IO Bit
 bGetBit (WriteHandle _ _) = 
-  error "readBit: illegal operation (handle is not open for writing)"
+  error "bGetBit: illegal operation (handle is not open for reading)"
 bGetBit (ReadHandle h mv) = do
   rh@(ReadHandle_ size buff) <- takeMVar mv
   if size == 0
@@ -65,7 +65,7 @@ bGetBit (ReadHandle h mv) = do
 
 bPutBit :: BitHandle -> Bit -> IO ()
 bPutBit (ReadHandle _ _) _ = 
-  error "writeBit: illegal operation (handle is not open for reading)"
+  error "bPutBit: illegal operation (handle is not open for writing)"
 bPutBit _ EOF = return ()
 bPutBit (WriteHandle h mv) bit = do
   (WriteHandle_ mask buff) <- takeMVar mv
