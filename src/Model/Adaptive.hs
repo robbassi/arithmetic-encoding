@@ -35,7 +35,7 @@ updateAdaptiveModel m@(AdaptiveModel freqs denom) sym
   | otherwise = m
   where incrementFreqs m s = 
           let (l, h) = getProb m s
-          in M.insert s (Freq (succ l) (succ h)) m
+          in l `seq` h `seq` M.insert s (Freq (succ l) (succ h)) m
         freqs' =
           let (l, h) = getProb freqs sym
           in M.insert sym (Freq l (succ h)) freqs
